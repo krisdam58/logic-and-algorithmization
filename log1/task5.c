@@ -1,58 +1,111 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <windows.h>
 #include <locale.h>
 
 struct student {
-    char famil[20];  
-    char name[20];   
-    char facult[20]; 
+    char famil[20];
+    char name[20];
+    char facult[20];
     int Nomzach;
 };
+/*1*/
+struct node {
+    struct student data;
+    struct node* next;
+};
 
-int main(void) {
+int main(void)
+{
     setlocale(LC_ALL, "Russian");
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
 
-    setvbuf(stdin, NULL, _IONBF, 0);
-    setvbuf(stdout, NULL, _IONBF, 0);
+    struct node* head = NULL;
+    struct node* last = NULL;
+    struct node* p;
 
-    struct student stud[3]; 
-    int i;
-    char search_famil[20];
-    int found = 0;
+    struct student stud;
 
-    for (i = 0; i < 3; i++) {
-        printf("Введите фамилию студента: ");
-        scanf("%19s", stud[i].famil);
+    char search[20];
+    char number[20];
 
-        printf("Введите имя студента %s: ", stud[i].famil);
-        scanf("%19s", stud[i].name);
+    while (1)
+    {
+        printf("Введите фамилию: ");
+        scanf("%19s", stud.famil);
+        /*2*/
+        if (strcmp(stud.famil, "*") == 0)
+            break;
 
-        printf("Введите название факультета студента %s %s: ", stud[i].famil, stud[i].name);
-        scanf("%19s", stud[i].facult);
+        printf("Введите имя: ");
+        scanf("%19s", stud.name);
 
-        printf("Введите номер зачётной книжки студента %s %s: ", stud[i].famil, stud[i].name);
-        scanf("%d", &stud[i].Nomzach);
+        printf("Введите факультет: ");
+        scanf("%19s", stud.facult);
+
+        printf("Введите номер зачётной книжки: ");
+        scanf("%d", &stud.Nomzach);
+
+        p = (struct node*)malloc(sizeof(struct node));
+
+        if (p == NULL)
+        {
+            printf("Ошибка выделения памяти!\n");
+            return 1;
+        }
+
+        p->data = stud;
+        p->next = NULL;
+
+        if (head == NULL)
+        {
+            head = p;
+            last = p;
+        }
+        else
+        {
+            last->next = p;
+            last = p;
+        }
+
         printf("\n");
     }
 
-    printf("Введите фамилию для поиска: ");
-    scanf("%19s", search_famil);
+    printf("\nВведите данные для поиска: ");
+    scanf("%19s", search);
 
     printf("\nРезультаты поиска:\n");
-    for (i = 0; i < 3; i++) {
-        if (strcmp(stud[i].famil, search_famil) == 0) {
-            printf("Студент %s %s обучается на факультете %s, номер зачётной книжки: %d\n",
-                stud[i].famil, stud[i].name, stud[i].facult, stud[i].Nomzach);
-            found = 1;
+
+    p = head;
+
+    while (p != NULL)
+    {
+        sprintf(number, "%d", p->data.Nomzach);
+        /*3*/
+        if (strstr(p->data.famil, search) != NULL ||
+            strstr(p->data.name, search) != NULL ||
+            strstr(p->data.facult, search) != NULL ||
+            strstr(number, search) != NULL)
+        {
+            printf("\nФамилия: %s", p->data.famil);
+            printf("\nИмя: %s", p->data.name);
+            printf("\nФакультет: %s", p->data.facult);
+            printf("\nНомер зачётной книжки: %d\n", p->data.Nomzach);
         }
+
+        p = p->next;
     }
 
-    if (!found) {
-        printf("Студент с фамилией %s не найден.\n", search_famil);
+    p = head;
+
+    while (p != NULL)
+    {
+        struct node* temp = p;
+        p = p->next;
+        free(temp);
     }
 
     return 0;
