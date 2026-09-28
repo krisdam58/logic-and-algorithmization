@@ -11,7 +11,9 @@ void menu_priority_queue(void) {
         printf("\n--- ЗАДАНИЕ 1: ПРИОРИТЕТНАЯ ОЧЕРЕДЬ ---\n");
         printf("1. Добавить элемент (с учетом приоритета)\n");
         printf("2. Посмотреть очередь\n");
-        printf("3. Удалить любой элемент по имени\n");
+        //printf("3. Удалить любой элемент по имени\n");
+        printf("3. Извлечение из вершины\n");
+        printf("4. Изменение имени по приоритету\n");
         printf("0. Вернуться в главное меню\n");
         printf("Выберите действие: ");
 
@@ -23,7 +25,9 @@ void menu_priority_queue(void) {
         switch (choice) {
         case 1: priority_queue_push(); break;
         case 2: priority_queue_review(); break;
-        case 3: priority_queue_delete_any(); break;
+            //case 3: priority_queue_delete_any(); break;
+        case 3: prioritet_stack_pop(); break;
+        case 4: name_by_priority(); break;
         case 0: return;
         default: printf("Неверный пункт меню.\n");
         }

@@ -4,8 +4,8 @@
 
 struct node
 {
-    char inf[256];     
-    int priority;     
+    char inf[256];
+    int priority;
     struct node* next;
 };
 
@@ -50,7 +50,7 @@ void priority_queue_push(void)
     struct node* p = get_struct();
     if (p == NULL) return;
 
-    if (head == NULL || p->priority <= head->priority)
+    if (head == NULL || p->priority < head->priority)
     {
         p->next = head;
         head = p;
@@ -87,7 +87,7 @@ void priority_queue_delete_any(void)
 {
     char name[256];
     struct node* struc = head;
-    struct node* prev = NULL; 
+    struct node* prev = NULL;
     int flag = 0;
 
     printf("Введите название объекта для удаления: ");
@@ -153,5 +153,61 @@ void priority_queue_delete_any(void)
         return;
     }
     printf("Элемент успешно удален.\n");
+}
+
+void prioritet_stack_pop(void)
+{
+    if (head == NULL)
+    {
+        printf("Список пуст\n");
+        return;
+    }
+    struct node* temp = head;
+    head = head->next;
+    printf("С вершины стека удален элемент: %s\n", temp->inf);
+    free(temp);
+}
+
+void name_by_priority(void)
+{
+    if (head == NULL)
+    {
+        printf("Список пуст\n");
+        return;
+    }
+
+    int target_priority;
+    char new_name[256];
+    int count = 0;
+
+    printf("Введите приоритет, для которого хотите изменить имя: ");
+    while (scanf("%d", &target_priority) != 1 || target_priority <= 0) {
+        printf("Ошибка! Приоритет должен быть строго больше 0.\n");
+        printf("Повторите ввод приоритета: ");
+        while (getchar() != '\n');
+    }
+
+    printf("Введите новое имя для этих элементов: ");
+    scanf("%255s", new_name);
+
+    struct node* current = head;
+    while (current != NULL)
+    {
+        if (current->priority == target_priority)
+        {
+            strcpy(current->inf, new_name);
+            count++;
+        }
+        current = current->next;
+    }
+
+    if (count > 0)
+    {
+        printf("Успешно изменено элементов: %d\n", count);
+    }
+    else
+    {
+        printf("Элементы с приоритетом %d не найдены.\n", target_priority);
+    }
 }
 
