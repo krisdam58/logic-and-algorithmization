@@ -1,0 +1,7 @@
+﻿  main.c
+C:\Users\Пользователь\source\repos\log7\main.c(13,11): warning C4244: функция: преобразование "time_t" в "unsigned int", возможна потеря данных
+  task1.c
+C:\Users\Пользователь\source\repos\log7\task1.c(10,14): warning C4047: =: "int *" отличается по уровням косвенного обращения от "int **"
+  task2.c
+  Создание кода...
+  log7.vcxproj -> C:\Users\Пользователь\source\repos\log7\x64\Debug\log7.exe
